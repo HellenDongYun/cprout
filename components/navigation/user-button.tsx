@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/server/auth";
+import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
 
 export default function UserButton({ user }: Session) {
