@@ -20,6 +20,7 @@ import { emailSignIn } from "@/server/actions/email-signin";
 import { useAction } from "next-safe-action/hooks";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { emailRegister } from "@/server/actions/email-register";
 export default function RegisterForm() {
   //resolver this just pass the register schema down to zodresolver to check client side if we haev any error
   //
@@ -33,9 +34,16 @@ export default function RegisterForm() {
   });
   const [error, setError] = useState("");
 
+  const { execute, status } = useAction(emailRegister, {
+    onSuccess(data) {
+      if (data.success) {
+        console.log(data.success);
+      }
+    },
+  });
   // const { handleSubmit, control } = form;
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    //execute(values);
+    execute(values);
   };
   return (
     <AuthCard
