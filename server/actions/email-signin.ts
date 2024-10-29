@@ -4,7 +4,6 @@ import { createSafeActionClient } from "next-safe-action";
 import { db } from "..";
 import { eq } from "drizzle-orm";
 import { users } from "../schema";
-import * as z from "zod";
 
 // 创建安全动作客户端
 export const action = createSafeActionClient();
