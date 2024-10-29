@@ -15,6 +15,20 @@
       "when": 1730095043208,
       "tag": "0001_tired_carnage",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1730191684272,
+      "tag": "0002_empty_calypso",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1730191961049,
+      "tag": "0003_unknown_matthew_murdock",
+      "breakpoints": true
     }
   ]
 }

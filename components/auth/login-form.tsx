@@ -16,7 +16,10 @@ import * as z from "zod";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
-
+import { emailSignIn } from "@/server/actions/email-signin";
+import { useAction } from "next-safe-action/hooks";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 export default function LoginForm() {
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -25,10 +28,13 @@ export default function LoginForm() {
       password: "",
     },
   });
-
+  const [error, setError] = useState("");
+  const { execute, status, reset, result } = useAction(emailSignIn, {
+    //onSuccess(data){}
+  });
   // const { handleSubmit, control } = form;
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
+    execute(values);
   };
   return (
     <AuthCard
@@ -83,7 +89,13 @@ export default function LoginForm() {
                 <Link href="/auth/reset">Forgot yout password</Link>
               </Button>
             </div>
-            <Button type="submit" className="w-full my-2">
+            <Button
+              type="submit"
+              className={cn(
+                "w-full",
+                status === "executing" ? "animation-pulse-slow" : ""
+              )}
+            >
               {"login"}
             </Button>
           </form>
