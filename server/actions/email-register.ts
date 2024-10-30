@@ -5,27 +5,34 @@ import bcrpyt from "bcrypt";
 import { db } from "..";
 import { eq } from "drizzle-orm";
 import { users } from "../schema";
+import { generateEmailVerificationToken } from "./tokens";
 const action = createSafeActionClient();
 export const emailRegister = action(
   RegisterSchema,
   async ({ email, password, name }) => {
+    //hash password
     const hashedPassword = await bcrpyt.hash(password, 10);
-    console.log(hashedPassword);
+    //check existing user
     const existingUser = await db.query.users.findFirst({
       where: eq(users.email, email),
     });
     if (existingUser) {
       //NEED TO CHANGE
-      // if (!existingUser.emailVerified) {
-      //   await db.query.users.update({
-      //     where: eq(users.id, existingUser.id),
-      //     data: {
-      //       emailVerified: true,
-      //     },
-      //   });
-      // }
+      if (!existingUser.emailVerified) {
+        const verificationToken = await generateEmailVerificationToken(email);
+        // await sentVerificationEmail()
+        return { success: "email confimation resent!" };
+      }
       return { error: "Email already exists" };
     }
-    return { success: "Congrats!" };
+    //logic when the user is not registered
+    await db.insert(users).values({
+      email,
+      name,
+      password: hashedPassword,
+    });
+    const verificationToken = await generateEmailVerificationToken(email);
+    // await sentVerificationEmail()
+    return { success: "email confimation sent!" };
   }
 );

@@ -10,6 +10,7 @@ import {
 // import postgres from "postgres";
 // import { drizzle } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
+import { createId } from "@paralleldrive/cuid2";
 const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle";
 // const pool = postgres(connectionString, { max: 1 });
 
@@ -18,13 +19,15 @@ export const RoleEnum = pgEnum("roles", ["user", "admin"]);
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .notNull()
+    .$defaultFn(() => createId()),
   name: text("name"),
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   twoFactorEnabled: boolean("twoFactorEnabled").default(false),
   role: RoleEnum("roles").default("user"),
+  password: text("password"),
 });
 
 export const accounts = pgTable(
@@ -54,9 +57,12 @@ export const accounts = pgTable(
 export const emailTokens = pgTable(
   "email-tokens",
   {
-    id: text("identifier").notNull(),
+    id: text("identifier")
+      .notNull()
+      .$defaultFn(() => createId()),
     token: text("token").notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
+    email: text("email").notNull(),
   },
   (verificationToken) => ({
     compositePk: primaryKey({
