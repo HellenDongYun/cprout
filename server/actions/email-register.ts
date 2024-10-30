@@ -22,6 +22,7 @@ export const emailRegister = action(
       if (!existingUser.emailVerified) {
         const verificationToken = await generateEmailVerificationToken(email);
         await sendVerificationEmail(
+          //参数位置不能调换，第一个必须是email
           verificationToken[0].email,
           verificationToken[0].token
         );

@@ -1,7 +1,7 @@
 "use server";
 import { eq } from "drizzle-orm";
 import { db } from "..";
-import { emailTokens } from "../schema";
+import { emailTokens, users } from "../schema";
 
 export const getVerificationTokenByEmail = async (email: string) => {
   try {
@@ -31,4 +31,22 @@ export const generateEmailVerificationToken = async (email: string) => {
     })
     .returning();
   return verificationToken;
+};
+
+export const newVerification = async (token: string) => {
+  const existingToken = await getVerificationTokenByEmail(token);
+  if (!existingToken) return { error: "token not found" };
+  const hasExpired = new Date(existingToken.expires) < new Date();
+  if (hasExpired) return { error: "token has expired" };
+  const existingUser = await db.query.users.findFirst({
+    where: eq(users.email, existingToken.email),
+  });
+  if (!existingUser) return { error: "user not found" };
+  await db.update(users).set({
+    emailVerified: new Date(), // 这里应该是更新emailVerified字段为当前时间,这是一个时间戳字段，用来看expired没有
+    email: existingToken.email,
+  });
+  //删除过期的token
+  await db.delete(emailTokens).where(eq(emailTokens.id, existingToken.id));
+  return { success: "email verified" };
 };
