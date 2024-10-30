@@ -6,6 +6,7 @@ import { db } from "..";
 import { eq } from "drizzle-orm";
 import { users } from "../schema";
 import { generateEmailVerificationToken } from "./tokens";
+import { sendVerificationEmail } from "./email";
 const action = createSafeActionClient();
 export const emailRegister = action(
   RegisterSchema,
@@ -20,7 +21,10 @@ export const emailRegister = action(
       //NEED TO CHANGE
       if (!existingUser.emailVerified) {
         const verificationToken = await generateEmailVerificationToken(email);
-        // await sentVerificationEmail()
+        await sendVerificationEmail(
+          verificationToken[0].email,
+          verificationToken[0].token
+        );
         return { success: "email confimation resent!" };
       }
       return { error: "Email already exists" };
@@ -32,7 +36,10 @@ export const emailRegister = action(
       password: hashedPassword,
     });
     const verificationToken = await generateEmailVerificationToken(email);
-    // await sentVerificationEmail()
+    await sendVerificationEmail(
+      verificationToken[0].email,
+      verificationToken[0].token
+    );
     return { success: "email confimation sent!" };
   }
 );

@@ -21,6 +21,8 @@ import { useAction } from "next-safe-action/hooks";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { emailRegister } from "@/server/actions/email-register";
+import { FormSuccess } from "./form-success";
+import { FormError } from "./form-error";
 export default function RegisterForm() {
   //resolver this just pass the register schema down to zodresolver to check client side if we haev any error
   //
@@ -33,12 +35,11 @@ export default function RegisterForm() {
     },
   });
   const [error, setError] = useState("");
-
+  const [success, setSuccess] = useState("");
   const { execute, status } = useAction(emailRegister, {
     onSuccess(data) {
-      if (data.success) {
-        console.log(data.success);
-      }
+      if (data.success) setSuccess(data.success);
+      if (data.error) setError(data.error);
     },
   });
   // const { handleSubmit, control } = form;
@@ -108,7 +109,8 @@ export default function RegisterForm() {
                   </FormItem>
                 )}
               />
-
+              <FormSuccess message={success} />
+              <FormError message={error} />
               <Button size={"sm"} variant={"link"} asChild>
                 <Link href="/auth/reset">Forgot yout password</Link>
               </Button>
