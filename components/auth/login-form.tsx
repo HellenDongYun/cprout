@@ -20,6 +20,8 @@ import { emailSignIn } from "@/server/actions/email-signin";
 import { useAction } from "next-safe-action/hooks";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { FormSuccess } from "./form-success";
+import { FormError } from "./form-error";
 export default function LoginForm() {
   const form = useForm({
     resolver: zodResolver(LoginSchema),
@@ -29,8 +31,12 @@ export default function LoginForm() {
     },
   });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const { execute, status, reset, result } = useAction(emailSignIn, {
-    //onSuccess(data){}
+    onSuccess(data) {
+      if (data?.error) setError(data.error);
+      if (data?.success) setSuccess(data.success);
+    },
   });
   // const { handleSubmit, control } = form;
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
@@ -85,6 +91,8 @@ export default function LoginForm() {
                   </FormItem>
                 )}
               />
+              <FormSuccess message={success} />
+              <FormError message={error} />
               <Button size={"sm"} variant={"link"} asChild>
                 <Link href="/auth/reset">Forgot yout password</Link>
               </Button>
