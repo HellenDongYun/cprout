@@ -57,7 +57,41 @@ export const accounts = pgTable(
 export const emailTokens = pgTable(
   "email-tokens",
   {
-    id: text("identifier")
+    id: text("id")
+      .notNull()
+      .$defaultFn(() => createId()),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+    email: text("email").notNull(),
+  },
+  (verificationToken) => ({
+    compositePk: primaryKey({
+      columns: [verificationToken.id, verificationToken.token],
+    }),
+  })
+);
+
+export const passwordResetTokens = pgTable(
+  "password-reset-tokes",
+  {
+    id: text("id")
+      .notNull()
+      .$defaultFn(() => createId()),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+    email: text("email").notNull(),
+  },
+  (verificationToken) => ({
+    compositePk: primaryKey({
+      columns: [verificationToken.id, verificationToken.token],
+    }),
+  })
+);
+
+export const twoFactorTokens = pgTable(
+  "two-factor-tokes",
+  {
+    id: text("id")
       .notNull()
       .$defaultFn(() => createId()),
     token: text("token").notNull(),
