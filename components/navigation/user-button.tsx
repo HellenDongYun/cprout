@@ -1,5 +1,4 @@
 "use client";
-
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -15,10 +14,12 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import { Switch } from "../ui/switch";
+import { useRouter } from "next/navigation";
 
 export default function UserButton({ user }: Session) {
   const { setTheme, theme } = useTheme();
   const [checked, setChecked] = useState(false);
+  const router = useRouter();
   function setSwitch() {
     switch (theme) {
       case "dark":
@@ -60,14 +61,22 @@ export default function UserButton({ user }: Session) {
           </span>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="group py-2 font-medium cursor-pointer transition-all duration-500 ">
+        <DropdownMenuItem
+          onClick={() => router.push("/dashboard/orders")}
+          className="group py-2 font-medium cursor-pointer duration-500 "
+        >
           <TruckIcon
             size={14}
             className="mr-2 group-hover:translate-x-1 transition-all duration-300 ease-in-out "
           />
           My orders
         </DropdownMenuItem>
-        <DropdownMenuItem className="group py-2 font-medium cursor-pointer transition-all duration-500 ">
+        {/* if add link here , the button will stay open, wo here we add onClick
+        here */}
+        <DropdownMenuItem
+          onClick={() => router.push("/dashboard/settings")}
+          className="group py-2 font-medium cursor-pointer  "
+        >
           <Settings
             size={14}
             className="mr-2 group-hover:rotate-180 transition-all duration-300 ease-in-out"
@@ -75,27 +84,27 @@ export default function UserButton({ user }: Session) {
           Settings
         </DropdownMenuItem>
         {theme && (
-          <DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-500 ">
+          <DropdownMenuItem className="py-2 font-medium cursor-pointer ease-in-out">
             <div
               //解决switch dark/light mode的时候弹窗会关闭的问题，
               onClick={(e) => e.stopPropagation()}
               className="flex items-center group"
             >
-              <div className="releative flex mr-3">
+              <div className="mr-3 releative flex ">
                 <Sun
                   className="group-hover:text-yellow-600  group-hover:rotate-180 dark:scale-0 dark:-rotate-90 transition-all duration-500 ease-in-out absolute"
                   size={14}
                 />
                 <Moon
-                  className="group-hover:text-blue-400 group-hover:rotate-180 dark:scale-100 scale-0 transition-all duration-500 ease-in-out"
+                  className="group-hover:text-blue-400 group-hover:rotate-0 dark:scale-100 scale-0 transition-all duration-500 ease-in-out"
                   size={14}
                 />
               </div>
-              <p className="dark:text-blue-400 text-secondary-foreground/75 text-xs text-yellow-600">
+              <p className="dark:text-blue-400 text-secondary-foreground/75 text-xs text-yellow-600 mr-3 ml-1">
                 {theme[0].toUpperCase() + theme.slice(1)} mode
               </p>
               <Switch
-                className="ml-2 scale-75"
+                className="scale-75"
                 checked={checked}
                 onCheckedChange={(e) => {
                   setChecked((prev) => !prev);
@@ -107,7 +116,7 @@ export default function UserButton({ user }: Session) {
           </DropdownMenuItem>
         )}
         <DropdownMenuItem
-          className="group py-2 font-medium cursor-pointer transition-all duration-500 focus:bg-destructive/50"
+          className="group py-2 font-medium cursor-pointer  focus:bg-destructive/50"
           onClick={() => signOut()}
         >
           <LogOut className="mr-2 group-hover:scale-75 transition-all duration-300 ease-in-out" />
