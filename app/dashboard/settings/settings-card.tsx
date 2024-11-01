@@ -35,6 +35,7 @@ export default function SettingsCard({ session }: SettingsCardProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [avatarUploading, setAvatarUploading] = useState(false);
+  console.log(session.user);
   const form = useForm<z.infer<typeof SettingsSchema>>({
     defaultValues: {
       name: session.user?.name || undefined,
