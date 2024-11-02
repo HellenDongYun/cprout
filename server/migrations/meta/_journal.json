@@ -64,6 +64,13 @@
       "when": 1730365440457,
       "tag": "0008_condemned_toro",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1730520028733,
+      "tag": "0009_sticky_marrow",
+      "breakpoints": true
     }
   ]
 }

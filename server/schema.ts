@@ -72,7 +72,7 @@ export const emailTokens = pgTable(
 );
 
 export const passwordResetTokens = pgTable(
-  "password-reset-tokes",
+  "password-reset-tokens",
   {
     id: text("id")
       .notNull()
@@ -89,7 +89,7 @@ export const passwordResetTokens = pgTable(
 );
 
 export const twoFactorTokens = pgTable(
-  "two-factor-tokes",
+  "two-factor-tokens",
   {
     id: text("id")
       .notNull()
@@ -97,6 +97,7 @@ export const twoFactorTokens = pgTable(
     token: text("token").notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
     email: text("email").notNull(),
+    userID: text("userID").references(() => users.id, { onDelete: "cascade" }),
   },
   (verificationToken) => ({
     compositePk: primaryKey({

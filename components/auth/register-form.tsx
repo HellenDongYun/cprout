@@ -50,7 +50,7 @@ export default function RegisterForm() {
     <AuthCard
       cardTitle="create an account"
       backButtonHref="/auth/login"
-      backButtonLabel="already haev ana account?"
+      backButtonLabel="already have an account?"
       showSpcials
     >
       <div>

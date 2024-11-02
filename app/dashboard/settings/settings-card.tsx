@@ -1,17 +1,15 @@
 "use client";
+import { SettingsSchema } from "@/app/type/settings-schema";
+import { FormError } from "@/components/auth/form-error";
+import { FormSuccess } from "@/components/auth/form-success";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Session } from "next-auth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -22,14 +20,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SettingsSchema } from "@/app/type/settings-schema";
-import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
-import { FormError } from "@/components/auth/form-error";
-import { FormSuccess } from "@/components/auth/form-success";
-import { useState } from "react";
-import { useAction } from "next-safe-action/hooks";
 import { settings } from "@/server/actions/settings";
+import { Session } from "next-auth";
+import { useAction } from "next-safe-action/hooks";
+import Image from "next/image";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 type SettingsCardProps = {
   session: Session;
 };
@@ -66,7 +65,7 @@ export default function SettingsCard({ session }: SettingsCardProps) {
     <Card>
       <CardHeader>
         <CardTitle>Your Settings</CardTitle>
-        <CardDescription>Update your account</CardDescription>
+        <CardDescription>Update your account settings</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>

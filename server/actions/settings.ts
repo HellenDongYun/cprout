@@ -8,6 +8,7 @@ import { users } from "../schema";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 const action = createSafeActionClient();
+
 export const settings = action(SettingsSchema, async (values) => {
   const user = await auth();
   if (!user) return { error: "user not found!" };
