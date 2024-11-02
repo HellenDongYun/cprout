@@ -28,19 +28,35 @@ import { Switch } from "@/components/ui/switch";
 import { FormError } from "@/components/auth/form-error";
 import { FormSuccess } from "@/components/auth/form-success";
 import { useState } from "react";
+import { useAction } from "next-safe-action/hooks";
+import { settings } from "@/server/actions/settings";
 type SettingsCardProps = {
   session: Session;
 };
 export default function SettingsCard({ session }: SettingsCardProps) {
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [success, setSuccess] = useState<string | undefined>(undefined);
   const [avatarUploading, setAvatarUploading] = useState(false);
-  console.log(session.user);
+
   const form = useForm<z.infer<typeof SettingsSchema>>({
     defaultValues: {
+      password: undefined,
+      newPassword: undefined,
       name: session.user?.name || undefined,
       email: session.user?.email || undefined,
-      // isTwoFactorEnabled: session.user?.isTwoFactorEnabled || undefined,
+      image: session.user?.image || undefined,
+      isTwoFactorEnabled: session.user?.isTwoFactorEnabled || undefined,
+    },
+  });
+
+  const { execute, status } = useAction(settings, {
+    onSuccess: (data) => {
+      if (data?.success) setSuccess(data.success);
+      if (data?.error) setError(data.error);
+    },
+    // onError will catch the server error, if we returing an error object it will catch in the on success block
+    onError: (error) => {
+      setError("something went wrong !");
     },
   });
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
@@ -118,7 +134,9 @@ export default function SettingsCard({ session }: SettingsCardProps) {
                   <FormControl>
                     <Input
                       placeholder="******"
-                      disabled={status === "executing"}
+                      disabled={
+                        status === "executing" || session.user.isOAuth === true
+                      }
                       {...field}
                     />
                   </FormControl>
@@ -135,7 +153,9 @@ export default function SettingsCard({ session }: SettingsCardProps) {
                   <FormControl>
                     <Input
                       placeholder="******"
-                      disabled={status === "executing"}
+                      disabled={
+                        status === "executing" || session.user.isOAuth === true
+                      }
                       {...field}
                     />
                   </FormControl>
@@ -153,14 +173,20 @@ export default function SettingsCard({ session }: SettingsCardProps) {
                     Enable two factor authentication for your account.
                   </FormDescription>
                   <FormControl>
-                    <Switch disabled={status === "executing"} />
+                    <Switch
+                      disabled={
+                        status === "executing" || session.user.isOAuth === true
+                      }
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormError />
-            <FormSuccess />
+            <FormError message={error} />
+            <FormSuccess message={success} />
             <Button
               type="submit"
               disabled={status === "executing" || avatarUploading}

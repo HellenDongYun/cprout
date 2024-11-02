@@ -93,14 +93,14 @@ export default function LoginForm() {
               />
               <FormSuccess message={success} />
               <FormError message={error} />
-              <Button size={"sm"} variant={"link"} asChild>
+              <Button size={"sm"} variant={"link"} asChild className="px-0">
                 <Link href="/auth/reset">Forgot yout password</Link>
               </Button>
             </div>
             <Button
               type="submit"
               className={cn(
-                "w-full",
+                "w-full my-4",
                 status === "executing" ? "animation-pulse-slow" : ""
               )}
             >
