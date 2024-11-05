@@ -22,13 +22,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DollarSign } from "lucide-react";
+import Tiptap from "./tiptap";
+import { zodResolver } from "@hookform/resolvers/zod";
 export default function ProductForm() {
   const form = useForm<zProductSchema>({
+    resolver: zodResolver(ProductSchema),
     defaultValues: {
       title: "",
       description: "",
       price: 0,
     },
+    mode: "onChange",
   });
   return (
     <Card>
@@ -60,7 +64,7 @@ export default function ProductForm() {
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    {/* <Input placeholder="saekdong strip" {...field} /> */}
+                    <Tiptap val={field.value} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
