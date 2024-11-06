@@ -1,8 +1,13 @@
 "use client";
-
-import { zProductSchema, ProductSchema } from "@/app/type/product-schema";
-import { useForm } from "react-hook-form";
+import { ProductSchema, zProductSchema } from "@/app/type/product-schema";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -12,21 +17,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { DollarSign } from "lucide-react";
-import Tiptap from "./tiptap";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAction } from "next-safe-action/hooks";
 import { createProduct } from "@/server/actions/create-product";
-import { useRouter } from "next/navigation";
+import { getProduct } from "@/server/actions/get-product";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { DollarSign } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import Tiptap from "./tiptap";
 export default function ProductForm() {
   const form = useForm<zProductSchema>({
     resolver: zodResolver(ProductSchema),
@@ -38,6 +38,31 @@ export default function ProductForm() {
     mode: "onChange",
   });
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const editMode = searchParams.get("id");
+
+  const checkProduct = async (id: number) => {
+    if (editMode) {
+      const data = await getProduct(id);
+      if (data.error) {
+        toast.error(data.error);
+        router.push("/dashboard/products");
+        return;
+      }
+      if (data.success) {
+        const id = parseInt(editMode);
+        form.setValue("title", data.success.title);
+        form.setValue("description", data.success.description);
+        form.setValue("price", data.success.price);
+        form.setValue("id", id);
+      }
+    }
+  };
+  // 首加载的时候就检查是不是在edit mode
+  useEffect(() => {
+    if (editMode) checkProduct(parseInt(editMode));
+  }, []);
+
   const { execute, status } = useAction(createProduct, {
     onSuccess: (data) => {
       if (data?.success) {
@@ -49,7 +74,12 @@ export default function ProductForm() {
       }
     },
     onExecute: (data) => {
-      toast.loading("Creating Product!");
+      if (editMode) {
+        toast.loading("Editing Product!");
+      }
+      if (!editMode) {
+        toast.loading("Creating Product!");
+      }
     },
   });
   async function onSubmit(values: zProductSchema) {
@@ -58,8 +88,14 @@ export default function ProductForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+        <CardTitle>
+          {editMode ? <span>Edit Product</span> : <span>Create Product</span>}
+        </CardTitle>
+        <CardDescription>
+          {editMode
+            ? "Make a change to existing product"
+            : "Add a brand new product"}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -125,14 +161,11 @@ export default function ProductForm() {
                 !form.formState.isDirty
               }
             >
-              Submit
+              {editMode ? "Save Changes" : "Create product"}
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter>
     </Card>
   );
 }
