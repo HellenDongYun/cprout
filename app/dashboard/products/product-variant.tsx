@@ -25,6 +25,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VariantSchema } from "@/app/type/variant-schema";
 import { InputTags } from "./input-tags";
+import VariantImages from "./variant-images";
 
 export default function ProductVariant({
   editMode,
@@ -110,6 +111,7 @@ export default function ProductVariant({
                 </FormItem>
               )}
             />
+            <VariantImages />
             {/* since this is a button so it will triggger the form, thats why we need to write prefent default here */}
             {editMode && variant && (
               <Button
