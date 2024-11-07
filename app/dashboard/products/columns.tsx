@@ -27,7 +27,7 @@ type productColumn = {
   title: string;
   price: number;
   image: string;
-  variant: VariantsWithImagesTags[];
+  variants: VariantsWithImagesTags[];
   id: number;
 };
 async function deleteProductWrapper(id: number) {
@@ -58,12 +58,12 @@ export const columns: ColumnDef<productColumn>[] = [
     },
   },
   {
-    accessorKey: "variant",
-    header: "Variant",
+    accessorKey: "variants",
+    header: "Variants",
     cell: ({ row }) => {
       const variants = row.getValue("variants") as VariantsWithImagesTags[];
       return (
-        <div>
+        <div className="flex gap-2">
           {variants.map((variant) => (
             <div key={variant.id}>
               <TooltipProvider>
@@ -93,12 +93,12 @@ export const columns: ColumnDef<productColumn>[] = [
               <TooltipTrigger asChild>
                 <span>
                   <ProductVariant productID={row.original.id} editMode={false}>
-                    <PlusCircle className="w-5 h-5" />
+                    <PlusCircle className="h-5 w-5" />
                   </ProductVariant>
                 </span>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Create a new variant</p>
+                <p>Create a new product variant</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

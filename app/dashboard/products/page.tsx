@@ -16,7 +16,7 @@ export default async function page() {
       id: product.id,
       title: product.title,
       price: product.price,
-      variant: [],
+      variants: [],
       image: placeholder.src,
     };
   });
