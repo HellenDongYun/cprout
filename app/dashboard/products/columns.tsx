@@ -22,7 +22,7 @@ import { deleteProduct } from "@/server/actions/delete-product";
 import { toast } from "sonner";
 import Link from "next/link";
 import { VariantsWithImagesTags } from "@/lib/infer-type";
-import ProductVariant from "./product-variant";
+import { ProductVariant } from "./product-variant";
 type productColumn = {
   title: string;
   price: number;
@@ -64,7 +64,7 @@ export const columns: ColumnDef<productColumn>[] = [
       const variants = row.getValue("variants") as VariantsWithImagesTags[];
       return (
         <div className="flex gap-2">
-          {variants.map((variant) => (
+          {/* {variants.map((variant) => (
             <div key={variant.id}>
               <TooltipProvider>
                 <Tooltip>
@@ -87,7 +87,25 @@ export const columns: ColumnDef<productColumn>[] = [
                 </Tooltip>
               </TooltipProvider>
             </div>
-          ))}
+          ))} */}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span>
+                  <ProductVariant productID={row.original.id} editMode={false}>
+                    <div
+                      className="w-5 h-5 rounded-full"
+                      key={row.original.id}
+                      style={{ background: "red" }}
+                    />
+                  </ProductVariant>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Create a new product variant</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -104,6 +122,18 @@ export const columns: ColumnDef<productColumn>[] = [
           </TooltipProvider>
         </div>
       );
+    },
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }) => {
+      const price = parseFloat(row.getValue("price"));
+      const formatted = new Intl.NumberFormat("en-US", {
+        currency: "USD",
+        style: "currency",
+      }).format(price);
+      return <div className="font-medium text-xs">{formatted}</div>;
     },
   },
   {

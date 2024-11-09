@@ -35,7 +35,7 @@ export default function VariantImages() {
   });
 
   const [active, setActive] = useState(0);
-  console.log(getValues());
+
 
   return (
     <div>
