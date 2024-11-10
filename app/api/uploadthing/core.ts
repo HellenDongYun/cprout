@@ -10,6 +10,11 @@ export const ourFileRouter = {
     // Set permissions and file types for this FileRoute
 
     .onUploadComplete(async ({ metadata, file }) => {}),
+  variantUploader: f({
+    image: { maxFileCount: 10, maxFileSize: "4MB" },
+  }).onUploadComplete(async ({ metadata, file }) => {
+    console.log(file);
+  }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

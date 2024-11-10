@@ -60,16 +60,16 @@ export function DataTable<TData, TValue>({
     <div className="rounded-md border">
       <Card>
         <CardHeader>
-          <CardTitle>Your products</CardTitle>
+          <CardTitle>Your Products</CardTitle>
           <CardDescription>
-            Update, delete and edit your products
+            Update, delete and edit your products 💯
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div>
             <div>
               <Input
-                placeholder="Filter products"
+                placeholder="Filter Products"
                 value={
                   (table.getColumn("title")?.getFilterValue() as string) ?? ""
                 }
@@ -126,22 +126,22 @@ export function DataTable<TData, TValue>({
                 )}
               </TableBody>
             </Table>
-            <div className="flex items-center justify-end gap-4">
+            <div className="flex items-center justify-end gap-4 pt-4">
               <Button
-                variant="outline"
-                onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
+                onClick={() => table.previousPage()}
+                variant="outline"
               >
                 <ChevronLeftIcon className="w-4 h-4" />
-                <span>previous page</span>
+                <span>Previous Page</span>
               </Button>
               <Button
-                variant="outline"
-                onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
+                onClick={() => table.nextPage()}
+                variant="outline"
               >
+                <span>Next page</span>
                 <ChevronRightIcon className="w-4 h-4" />
-                <span>next page</span>
               </Button>
             </div>
           </div>

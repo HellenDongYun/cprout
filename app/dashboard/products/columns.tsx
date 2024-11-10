@@ -88,24 +88,6 @@ export const columns: ColumnDef<productColumn>[] = [
               </TooltipProvider>
             </div>
           ))}
-          {/* <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span>
-                  <ProductVariant productID={row.original.id} editMode={false}>
-                    <div
-                      className="w-5 h-5 rounded-full"
-                      key={row.original.id}
-                      style={{ background: "red" }}
-                    />
-                  </ProductVariant>
-                </span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Create a new product variant</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider> */}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>

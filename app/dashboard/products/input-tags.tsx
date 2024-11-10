@@ -5,7 +5,6 @@ import { Dispatch, SetStateAction, forwardRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { AnimatePresence, motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
 
 type InputTagsProps = InputProps & {

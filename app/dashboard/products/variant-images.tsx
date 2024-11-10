@@ -35,7 +35,7 @@ export default function VariantImages() {
   });
 
   const [active, setActive] = useState(0);
-
+  console.log(getValues());
 
   return (
     <div>
@@ -86,7 +86,7 @@ export default function VariantImages() {
                   return;
                 }}
                 config={{ mode: "auto" }}
-                endpoint="avatarUploader"
+                endpoint="variantUploader"
               />
             </FormControl>
             <FormMessage />
