@@ -64,7 +64,7 @@ export const columns: ColumnDef<productColumn>[] = [
       const variants = row.getValue("variants") as VariantsWithImagesTags[];
       return (
         <div className="flex gap-2">
-          {/* {variants.map((variant) => (
+          {variants.map((variant) => (
             <div key={variant.id}>
               <TooltipProvider>
                 <Tooltip>
@@ -87,8 +87,8 @@ export const columns: ColumnDef<productColumn>[] = [
                 </Tooltip>
               </TooltipProvider>
             </div>
-          ))} */}
-          <TooltipProvider>
+          ))}
+          {/* <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <span>
@@ -105,7 +105,7 @@ export const columns: ColumnDef<productColumn>[] = [
                 <p>Create a new product variant</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider>
+          </TooltipProvider> */}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>

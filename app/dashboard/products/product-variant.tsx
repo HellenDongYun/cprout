@@ -55,18 +55,6 @@ export const ProductVariant = forwardRef<HTMLDivElement, VariantProps>(
     });
 
     const [open, setOpen] = useState(false);
-    // const form = useForm<z.infer<typeof VariantSchema>>({
-    //   resolver: zodResolver(VariantSchema),
-    //   defaultValues: {
-    //     tags: [],
-    //     variantImages: [],
-    //     color: "#000000",
-    //     editMode,
-    //     id: undefined,
-    //     productID,
-    //     productType: "Black Notebook",
-    //   },
-    // });
 
     const setEdit = () => {
       if (!editMode) {
@@ -190,6 +178,7 @@ export const ProductVariant = forwardRef<HTMLDivElement, VariantProps>(
               <div className="flex gap-4 items-center justify-center">
                 {editMode && variant && (
                   <Button
+                    disabled={variantAction.status === "executing"}
                     variant={"destructive"}
                     type="button"
                     onClick={(e: { preventDefault: () => void }) => {
@@ -201,7 +190,14 @@ export const ProductVariant = forwardRef<HTMLDivElement, VariantProps>(
                   </Button>
                 )}
 
-                <Button type="submit">
+                <Button
+                  disabled={
+                    status === "executing" ||
+                    !form.formState.isValid ||
+                    !form.formState.isDirty
+                  }
+                  type="submit"
+                >
                   {editMode ? "update variant" : " create variant"}
                 </Button>
               </div>
@@ -212,3 +208,4 @@ export const ProductVariant = forwardRef<HTMLDivElement, VariantProps>(
     );
   }
 );
+ProductVariant.displayName = "ProductVariant";
