@@ -52,6 +52,9 @@ const config: Config = withUt({
           "5": "hsl(var(--chart-5))",
         },
       },
+      maxWidth: {
+        "8xl": "88rem",
+      },
       minHeight: {
         "50vh": "50vh",
       },

@@ -9,6 +9,7 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 import { AnimatePresence, motion } from "framer-motion";
+import CartItems from "./cart-items";
 
 export default function CartDrawer() {
   const { cart, checkoutProgress, setCheckoutProgress, cartOpen, setCartOpen } =
@@ -40,6 +41,7 @@ export default function CartDrawer() {
           {checkoutProgress === "payment-page" && <Payment />}
           {checkoutProgress === "confirmation-page" && <OrderConfirmed />}
         </div> */}
+        <CartItems />
       </DrawerContent>
     </Drawer>
   );
