@@ -52,7 +52,7 @@ export const columns: ColumnDef<productColumn>[] = [
       const price = parseFloat(row.getValue("price"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "NZD",
+        currency: "usd",
       }).format(price);
       return <div className="font-medium text-xs">{formatted}</div>;
     },

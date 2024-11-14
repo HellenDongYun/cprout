@@ -7,11 +7,27 @@ import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "@/app/type/login-schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
+import Stripe from "stripe";
 import { accounts, users } from "./schema";
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
   secret: process.env.NEXTAUTH_CECRET,
   session: { strategy: "jwt" },
+  events: {
+    createUser: async ({ user }) => {
+      const stripe = new Stripe(process.env.STRIPE_SECRET!, {
+        apiVersion: "2024-10-28.acacia",
+      });
+      const customer = await stripe.customers.create({
+        email: user.email!,
+        name: user.name!,
+      });
+      await db
+        .update(users)
+        .set({ customerID: customer.id })
+        .where(eq(users.id, user.id!));
+    },
+  },
   callbacks: {
     // save all the properties we set in the token in the session,so we can access all the properties in the session in components
     async session({ session, token }) {
