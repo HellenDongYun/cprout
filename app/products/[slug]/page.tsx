@@ -12,6 +12,8 @@ import { productVariants } from "@/server/schema";
 import { eq } from "drizzle-orm";
 import { number } from "zod";
 //this function will fetch everything before hand and pass down the result and render out the static page
+
+export const revalidate = 60;
 export async function generateStaticParams() {
   const data = await db.query.productVariants.findMany({
     with: {
