@@ -41,6 +41,6 @@ export const createOrder = action(
         });
       }
     );
-    return { success: "Order has been added" };
+    return { success: "Order has been added!" };
   }
 );

@@ -1,37 +1,35 @@
 import {
-  boolean,
   timestamp,
   pgTable,
   text,
   primaryKey,
   integer,
+  boolean,
   pgEnum,
+  unique,
+  PgTable,
   serial,
   real,
   index,
 } from "drizzle-orm/pg-core";
-// import postgres from "postgres";
-// import { drizzle } from "drizzle-orm/postgres-js";
-import type { AdapterAccountType } from "next-auth/adapters";
+import type { AdapterAccount } from "next-auth/adapters";
 import { createId } from "@paralleldrive/cuid2";
-import { relations } from "drizzle-orm";
-const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle";
-// const pool = postgres(connectionString, { max: 1 });
+import { InferSelectModel, relations } from "drizzle-orm";
 
-// export const db = drizzle(pool);
 export const RoleEnum = pgEnum("roles", ["user", "admin"]);
+
 export const users = pgTable("user", {
   id: text("id")
-    .primaryKey()
     .notNull()
+    .primaryKey()
     .$defaultFn(() => createId()),
   name: text("name"),
-  email: text("email").unique(),
+  email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  password: text("password"),
   twoFactorEnabled: boolean("twoFactorEnabled").default(false),
   role: RoleEnum("roles").default("user"),
-  password: text("password"),
   customerID: text("customerID"),
 });
 
@@ -41,7 +39,7 @@ export const accounts = pgTable(
     userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    type: text("type").$type<AdapterAccountType>().notNull(),
+    type: text("type").$type<AdapterAccount["type"]>().notNull(),
     provider: text("provider").notNull(),
     providerAccountId: text("providerAccountId").notNull(),
     refresh_token: text("refresh_token"),
@@ -58,9 +56,8 @@ export const accounts = pgTable(
     }),
   })
 );
-
 export const emailTokens = pgTable(
-  "email-tokens",
+  "email_tokens",
   {
     id: text("id")
       .notNull()
@@ -69,15 +66,13 @@ export const emailTokens = pgTable(
     expires: timestamp("expires", { mode: "date" }).notNull(),
     email: text("email").notNull(),
   },
-  (verificationToken) => ({
-    compositePk: primaryKey({
-      columns: [verificationToken.id, verificationToken.token],
-    }),
+  (vt) => ({
+    compoundKey: primaryKey({ columns: [vt.id, vt.token] }),
   })
 );
 
 export const passwordResetTokens = pgTable(
-  "password-reset-tokens",
+  "password_reset_tokens",
   {
     id: text("id")
       .notNull()
@@ -86,15 +81,13 @@ export const passwordResetTokens = pgTable(
     expires: timestamp("expires", { mode: "date" }).notNull(),
     email: text("email").notNull(),
   },
-  (verificationToken) => ({
-    compositePk: primaryKey({
-      columns: [verificationToken.id, verificationToken.token],
-    }),
+  (vt) => ({
+    compoundKey: primaryKey({ columns: [vt.id, vt.token] }),
   })
 );
 
 export const twoFactorTokens = pgTable(
-  "two-factor-tokens",
+  "two_factor_tokens",
   {
     id: text("id")
       .notNull()
@@ -104,10 +97,8 @@ export const twoFactorTokens = pgTable(
     email: text("email").notNull(),
     userID: text("userID").references(() => users.id, { onDelete: "cascade" }),
   },
-  (verificationToken) => ({
-    compositePk: primaryKey({
-      columns: [verificationToken.id, verificationToken.token],
-    }),
+  (vt) => ({
+    compoundKey: primaryKey({ columns: [vt.id, vt.token] }),
   })
 );
 
@@ -115,8 +106,8 @@ export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   description: text("description").notNull(),
   title: text("title").notNull(),
-  price: real("price").notNull(),
   created: timestamp("created").defaultNow(),
+  price: real("price").notNull(),
 });
 
 export const productVariants = pgTable("productVariants", {
