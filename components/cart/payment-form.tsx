@@ -48,7 +48,7 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
       return;
     }
     const { data } = await createPaymentIntent({
-      amount: totalPrice * 100,
+      amount: Math.round(totalPrice * 100),
       currency: "usd",
       cart: cart.map((item) => ({
         quantity: item.variant.quantity,
@@ -84,7 +84,7 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
         execute({
           status: "pending",
           paymentIntentID: data.success.paymentIntentID,
-          total: totalPrice,
+          total: Math.round(totalPrice),
           products: cart.map((item) => ({
             productID: item.id,
             variantID: item.variant.variantID,
