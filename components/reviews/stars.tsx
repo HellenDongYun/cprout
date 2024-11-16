@@ -13,10 +13,10 @@ export default function Stars({
 }) {
   return (
     <div className="flex items-center">
-      {[1, 2, 3, 4, 5].map((star) => (
+      {[1, 2, 3, 4, 5].map((star, index) => (
         <Star
           size={size}
-          key={star}
+          key={index}
           className={cn(
             "text-primary bg-transparent transition-all duration-300 ease-in-out",
             rating >= star ? "fill-primary" : "fill-transparent"

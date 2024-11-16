@@ -28,7 +28,7 @@ export default function CartDrawer() {
                 animate={{ scale: 1, opacity: 1 }}
                 initial={{ opacity: 0, scale: 0 }}
                 exit={{ scale: 0 }}
-                className="absolute flex items-center justify-center -top-1 -right-0.5 w-4 h-4 dark:bg-primary bg-primary text-secondary text-xs font-bold rounded-full"
+                className="absolute flex items-center justify-center -top-1 -right-0.5 w-4 h-4 dark:bg-primary bg-primary text-black text-xs font-bold rounded-full"
               >
                 {cart.length}
               </motion.span>
@@ -47,7 +47,6 @@ export default function CartDrawer() {
           {checkoutProgress === "payment-page" && <Payment />}
           {checkoutProgress === "confirmation-page" && <OrderConfirmed />}
         </div>
-        {/* <CartItems /> */}
       </DrawerContent>
     </Drawer>
   );

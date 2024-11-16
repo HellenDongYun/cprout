@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { useCartStore } from "@/lib/client-store";
-import Lottie from "lottie-react";
+// import Lottie from "lottie-react";
 import { motion } from "framer-motion";
 import orderConfirmed from "@/public/order-confirmed.json";
-
+import dynamic from "next/dynamic";
+// 动态导入 Lottie，禁用服务端渲染
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 export default function OrderConfirmed() {
   const { setCheckoutProgress, setCartOpen } = useCartStore();
   return (

@@ -17,8 +17,9 @@ export default function AddCart() {
   const type = params.get("type");
   const price = Number(params.get("price"));
   const image = params.get("image");
+
   if (!id || !productID || !title || !type || !price || !image) {
-    toast.error("Invalid product!");
+    toast.error("Product not found");
     return redirect("/");
   }
   return (
@@ -30,25 +31,27 @@ export default function AddCart() {
               setQuantity(quantity - 1);
             }
           }}
-          className="text-primary"
           variant={"secondary"}
+          className="text-primary"
         >
           <Minus size={18} strokeWidth={3} />
         </Button>
-        <Button className="flex-1">Quantity: {quantity}</Button>
+        <Button variant={"secondary"} className="flex-1">
+          Quantity: {quantity}
+        </Button>
         <Button
           onClick={() => {
             setQuantity(quantity + 1);
           }}
-          className="text-primary"
           variant={"secondary"}
+          className="text-primary"
         >
           <Plus size={18} strokeWidth={3} />
         </Button>
       </div>
       <Button
         onClick={() => {
-          toast.success(`Added ${title + " " + type} to cart!`);
+          toast.success(`Added ${title + " " + type} to your cart!`);
           addToCart({
             id: productID,
             variant: { variantID: id, quantity },

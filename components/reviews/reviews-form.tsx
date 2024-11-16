@@ -100,13 +100,13 @@ export default function ReviewsForm() {
                     <Input type="hidden" placeholder="Star Rating" {...field} />
                   </FormControl>
                   <div className="flex">
-                    {[1, 2, 3, 4, 5].map((value) => {
+                    {[1, 2, 3, 4, 5].map((value, index) => {
                       return (
                         <motion.div
                           className="relative cursor-pointer"
                           whileTap={{ scale: 0.8 }}
                           whileHover={{ scale: 1.2 }}
-                          key={value}
+                          key={index}
                         >
                           <Star
                             key={value}

@@ -12,11 +12,9 @@ export default function Payment() {
   const { cart } = useCartStore();
   const { theme } = useTheme();
 
-  const totalPrice = Math.round(
-    cart.reduce((acc, item) => {
-      return acc + item.price * item.variant.quantity;
-    }, 0)
-  );
+  const totalPrice = cart.reduce((acc, item) => {
+    return acc + item.price * item.variant.quantity;
+  }, 0);
 
   return (
     <motion.div className="max-w-2xl mx-auto">

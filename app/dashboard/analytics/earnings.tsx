@@ -99,11 +99,11 @@ export default function Earnings({
               <Tooltip
                 content={(props) => (
                   <div>
-                    {props.payload?.map((item) => {
+                    {props.payload?.map((item, index) => {
                       return (
                         <div
                           className="bg-primary text-white py-2 px-4 rounded-md shadow-lg"
-                          key={item.payload.date}
+                          key={index}
                         >
                           <p>Revenue: ${item.value}</p>
                           <p>Date: {item.payload.date}</p>

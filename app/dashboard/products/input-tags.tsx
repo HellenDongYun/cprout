@@ -39,12 +39,12 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
       >
         <motion.div className="rounded-md min-h-[2.5rem]  p-2 flex gap-2 flex-wrap items-center">
           <AnimatePresence>
-            {value.map((tag) => (
+            {value.map((tag, index) => (
               <motion.div
                 animate={{ scale: 1 }}
                 initial={{ scale: 0 }}
                 exit={{ scale: 0 }}
-                key={tag}
+                key={index}
               >
                 <Badge variant={"secondary"}>
                   {tag}

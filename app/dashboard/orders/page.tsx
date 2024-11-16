@@ -79,8 +79,8 @@ export default async function Page() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {userOrders.map((order) => (
-              <TableRow key={order.id}>
+            {userOrders.map((order, index) => (
+              <TableRow key={index}>
                 <TableCell>{order.id}</TableCell>
                 <TableCell>${order.total}</TableCell>
                 <TableCell>

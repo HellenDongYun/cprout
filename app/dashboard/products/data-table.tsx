@@ -80,8 +80,8 @@ export function DataTable<TData, TValue>({
             </div>
             <Table>
               <TableHeader>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
+                {table.getHeaderGroups().map((headerGroup, index) => (
+                  <TableRow key={index}>
                     {headerGroup.headers.map((header) => {
                       return (
                         <TableHead key={header.id}>

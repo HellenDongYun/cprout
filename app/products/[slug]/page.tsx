@@ -72,9 +72,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
               Available colors
             </p>
             <div className="flex gap-4">
-              {variant.product.productVariants.map((prodVariant) => (
+              {variant.product.productVariants.map((prodVariant, index) => (
                 <ProductPick
-                  key={prodVariant.id}
+                  key={index}
                   productID={variant.product.id}
                   productType={prodVariant.productType}
                   id={prodVariant.id}
