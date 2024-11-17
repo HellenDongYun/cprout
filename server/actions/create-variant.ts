@@ -11,15 +11,18 @@ import {
 } from "../schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+
 import algoliasearch from "algoliasearch";
+
+const action = createSafeActionClient();
 
 const client = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_ID!,
   process.env.ALGOLIA_ADMIN!
 );
+
 const algoliaIndex = client.initIndex("products");
 
-const action = createSafeActionClient();
 export const createVariant = action(
   VariantSchema,
   async ({

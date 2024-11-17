@@ -23,7 +23,7 @@ export default function ProductTags() {
       <Badge
         onClick={() => setFilter("")}
         className={cn(
-          "cursor-pointer bg-black hover:bg-black/75 hover:opacity-100",
+          "cursor-pointer bg-primary hover:bg-black/75 hover:opacity-100",
           !tag ? "opacity-100" : "opacity-50"
         )}
       >

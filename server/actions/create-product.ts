@@ -8,38 +8,35 @@ import { products } from "../schema";
 import { revalidatePath } from "next/cache";
 
 const action = createSafeActionClient();
+
 export const createProduct = action(
   ProductSchema,
-  async ({ title, description, price, id }) => {
+  async ({ description, price, title, id }) => {
     try {
+      //EDIT MODE
       if (id) {
         const currentProduct = await db.query.products.findFirst({
           where: eq(products.id, id),
         });
-        if (!currentProduct) return { error: "Product not found!" };
-        const editProduct = await db
+        if (!currentProduct) return { error: "Product not found" };
+        const editedProduct = await db
           .update(products)
-          .set({ description, title, price })
+          .set({ description, price, title })
           .where(eq(products.id, id))
           .returning();
         revalidatePath("/dashboard/products");
-        return {
-          success: `product ${editProduct[0].title} edited successfully!`,
-        };
+        return { success: `Product ${editedProduct[0].title} has been edited` };
       }
       if (!id) {
         const newProduct = await db
           .insert(products)
-          .values({ title, description, price })
+          .values({ description, price, title })
           .returning();
-        // revalidatePath("/dashboard/products");
-        return {
-          success: `new product ${newProduct[0].title} has been created!`,
-        };
+        revalidatePath("/dashboard/products");
+        return { success: `Product ${newProduct[0].title} has been created` };
       }
-    } catch (error) {
-      // Handle error
-      return { error: JSON.stringify(error) };
+    } catch (err) {
+      return { error: "Failed to create product" };
     }
   }
 );
