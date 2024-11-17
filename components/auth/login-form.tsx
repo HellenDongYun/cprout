@@ -111,7 +111,7 @@ export default function LoginForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        we&apos;ve sent you a two factor code to your email.
+                        we will sent you a two factor code to your email.
                       </FormLabel>
                       <FormControl>
                         <InputOTP
