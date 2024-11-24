@@ -13,7 +13,7 @@ export default function Socials() {
         onClick={() =>
           signIn("google", {
             redirect: false,
-            callbackUrl: "http://localhost:3000",
+            callbackUrl: "/",
           })
         }
       >
@@ -26,7 +26,7 @@ export default function Socials() {
         onClick={() =>
           signIn("github", {
             redirect: false,
-            callbackUrl: "http://localhost:3000",
+            callbackUrl: "/",
           })
         }
       >
