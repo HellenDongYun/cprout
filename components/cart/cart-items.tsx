@@ -14,12 +14,12 @@ import { MinusCircle, PlusCircle } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "../ui/button";
 import formatPrice from "@/lib/format-price";
-import Lottie from "lottie-react";
+// import Lottie from "lottie-react";
 import emptyCart from "@/public/empty-box.json";
 import { createId } from "@paralleldrive/cuid2";
-// import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 // // 动态导入 Lottie，禁用服务端渲染
-// const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 export default function CartItems() {
   const { cart, addToCart, removeFromCart, setCheckoutProgress } =
     useCartStore();
