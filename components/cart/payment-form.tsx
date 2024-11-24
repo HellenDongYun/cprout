@@ -14,6 +14,9 @@ import { useAction } from "next-safe-action/hooks";
 import { createOrder } from "@/server/actions/create-order";
 import { toast } from "sonner";
 export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
+  const returnUrl = `${
+    process.env.NEXT_PUBLIC_DOMAIN_URL || "http://localhost:3000"
+  }/success`;
   const stripe = useStripe();
   const elements = useElements();
   const { cart, setCheckoutProgress, clearCart, setCartOpen } = useCartStore();
@@ -71,7 +74,7 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
         clientSecret: data.success.clientSecretID!,
         redirect: "if_required",
         confirmParams: {
-          return_url: "http://localhost:3000/success",
+          return_url: returnUrl,
           receipt_email: data.success.user as string,
         },
       });
