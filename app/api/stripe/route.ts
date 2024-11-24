@@ -57,7 +57,7 @@ import Stripe from "stripe";
 // }
 export async function POST(req: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET || "", {
-    apiVersion: "2024-10-28.acacia",
+    apiVersion: "2024-11-20.acacia",
   });
   const sig = req.headers.get("stripe-signature") || "";
   const signingSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
