@@ -63,6 +63,7 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
     });
     if (data?.error) {
       setErrorMessage(data.error);
+      toast.error(data.error);
       setIsLoading(false);
       router.push("/auth/login");
       setCartOpen(false);

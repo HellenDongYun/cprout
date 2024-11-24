@@ -6,7 +6,8 @@ export default function getBaseURL() {
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
 
   // 如果配置了自定义域名，通过环境变量返回域名
-  if (process.env.DOMAIN_URL) return `https://${process.env.DOMAIN_URL}`;
+  if (process.env.NEXT_PUBLIC_DOMAIN_URL)
+    return `https://${process.env.NEXT_PUBLIC_DOMAIN_URL}`;
 
   // 本地开发环境，使用 localhost
   return "http://localhost:3000";
